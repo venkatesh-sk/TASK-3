@@ -1,0 +1,45 @@
+//print current weather data of rest countries in console:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script src="scriptp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+
+//script:
+//jshint esversion:6
+
+
+var req=new XMLHttpRequest();
+var request=new XMLHttpRequest();
+
+request.open("GET","https://restcountries.eu/rest/v2/all",true);
+request.send();
+request.onload = function(){
+
+    var weatherData=JSON.parse(this.response);
+    console.log(weatherData);
+
+    for(var i=0;i<weatherData.length;i++)
+{
+    var lat=weatherData[i].latlng[0];
+    var lng=weatherData[i].latlng[1];
+    var url="https://api.openweathermap.org/data/2.5/weather?lat="+ lat +"&lon=" + lng + "&appid=a87b3645166900960c3e7f508e1d6e1d&units=metric";
+    var req=new XMLHttpRequest();
+    req.open("GET",url,true);
+    req.send();
+    req.onload=function(){
+        var result=JSON.parse(this.response);
+        console.log(result.main.temp);
+    };
+}
